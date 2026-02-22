@@ -103,7 +103,7 @@ function pcPlay() {
   pcCardsEl.textContent = `Cards: ${pcFirstCard} ${pcSecondCard}`
   pcSumEl.textContent = `Sum: ${pcSum}`;
 
-  while (pcSum < 18 && pcSum != 21 && pcSum <= sum) {
+  while (pcSum < 18 || pcSum != 21 || pcSum <= sum) {
     let pcNextNumber = getRandomInt(2, 11);
     pcCardsEl.textContent += ` ${pcNextNumber}`;
     pcSum += pcNextNumber;
