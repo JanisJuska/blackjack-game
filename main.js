@@ -62,11 +62,11 @@ startBtn.addEventListener("click", () => {
   bank -= 5;
   bankEl.textContent = `${playerName}: $${bank}`;
   messageEl.style.opacity = 0;
-  // firstCard = getRandomInt(2, 11)
-  // secondCard = getRandomInt(2, 11)
+  firstCard = getRandomInt(2, 11)
+  secondCard = getRandomInt(2, 11)
   // FOR DEBUGGING ⬇️
-  firstCard = 10
-  secondCard = 9
+  // firstCard = 10
+  // secondCard = 9
 
 
   sum = firstCard + secondCard
@@ -99,11 +99,11 @@ function pcPlay() {
   hideButton(newCardBtn);
   hideButton(standBtn);
 
-  // pcFirstCard = getRandomInt(2, 11);
-  // pcSecondCard = getRandomInt(2, 11);
+  pcFirstCard = getRandomInt(2, 11);
+  pcSecondCard = getRandomInt(2, 11);
   // FOR DEBUGGING ⬇️
-  pcFirstCard = 10
-  pcSecondCard = 8
+  // pcFirstCard = 10
+  // pcSecondCard = 8
 
   pcSum = pcFirstCard + pcSecondCard;
 
