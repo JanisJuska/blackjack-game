@@ -1,5 +1,5 @@
 
-
+let titleEl = document.querySelector(".title");
 let cardsEl = document.getElementById("cards");
 let sumEl = document.getElementById("sum");
 let startBtn = document.getElementById("start-btn");
@@ -26,7 +26,6 @@ let betMultiplier = localStorage.getItem("betsMultiplier");
 
 localStorage.removeItem("blackJackPlayerName");
 
-
 let firstCard = 0;
 let secondCard = 0;
 let pcFirstCard = 0;
@@ -38,7 +37,14 @@ let bank = 200;
 bankEl.textContent = `${playerName}: $${bank}`;
 
 function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  let randomInt = Math.floor(Math.random() * (max - min + 1)) + min;
+  if (randomInt === 1) {
+    return 11
+  } else if (randomInt === 11 || randomInt === 12 || randomInt === 13) {
+    return 10
+  } else {
+    return randomInt
+  }
 }
 
 function hideButton(button) {
@@ -62,8 +68,8 @@ startBtn.addEventListener("click", () => {
   bank -= 5;
   bankEl.textContent = `${playerName}: $${bank}`;
   messageEl.style.opacity = 0;
-  firstCard = getRandomInt(2, 11)
-  secondCard = getRandomInt(2, 11)
+  firstCard = getRandomIntAndAskIfAce()
+  secondCard = getRandomIntAndAskIfAce()
   // FOR DEBUGGING ⬇️
   // firstCard = 10
   // secondCard = 9
@@ -83,7 +89,7 @@ startBtn.addEventListener("click", () => {
 
 newCardBtn.addEventListener("click", () => {
   messageEl.style.opacity = 0;
-  let nextNumber = getRandomInt(2, 11)
+  let nextNumber = getRandomInt(1, 13)
   cardsEl.textContent += ` ${nextNumber}`
   sum += nextNumber;
   sumEl.textContent = `Sum: ${sum}`;
@@ -99,8 +105,8 @@ function pcPlay() {
   hideButton(newCardBtn);
   hideButton(standBtn);
 
-  pcFirstCard = getRandomInt(2, 11);
-  pcSecondCard = getRandomInt(2, 11);
+  pcFirstCard = getRandomInt(1, 13);
+  pcSecondCard = getRandomInt(1, 13);
   // FOR DEBUGGING ⬇️
   // pcFirstCard = 10
   // pcSecondCard = 8
@@ -111,7 +117,7 @@ function pcPlay() {
   pcSumEl.textContent = `Sum: ${pcSum}`;
 
   while (pcSum < 18 || pcSum < sum) {
-    let pcNextNumber = getRandomInt(2, 11);
+    let pcNextNumber = getRandomInt(1, 13);
     pcCardsEl.textContent += ` ${pcNextNumber}`;
     pcSum += pcNextNumber;
     pcSumEl.textContent = `Sum: ${pcSum}`;
@@ -165,5 +171,37 @@ function displayMessagePC(sum, pcSumEl) {
 
   console.log(`sum: ${sum}`)
   console.log(`pcSum: ${pcSum}`)
+}
+
+function getRandomIntAndAskIfAce() {
+
+  let card = getRandomInt(1, 13);
+  let answer = 0;
+  if (card === 11) {
+    while (answer === 0) {
+      hideButton(standBtn)
+      messageEl.classList.add("blink-red")
+      messageEl.textContent = "You have got an ace. Do you want to change it to 1 or 11?";
+      messageEl.style.opacity = 1;
+
+      startBtn.textContent = "1";
+      newCardBtn.textContent = "11";
+
+      startBtn.addEventListener("click", () => {
+        answer = 1;
+      })
+      newCardBtn.addEventListener("click", () => {
+        answer = 11;
+      })
+    }
+  } else {
+    answer = card;
+  }
+
+  startBtn.textContent = "START GAME"
+  newCardBtn.textContent = "NEW CARD"
+
+
+  return answer
 }
 
